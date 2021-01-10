@@ -1,0 +1,34 @@
+@font-face {
+    font-family: Arial, 'ljk_CCRickVeitch_WO5';
+    src: url('fonts/ljk_CCRickVeitch_WO5.otf')
+    format('truetype');
+
+}
+.body_header {
+    background: #def5ff;
+    height: 100px;
+}
+/* Стили панели навигации */
+nav {
+    background: #f03624;
+    height: 70px;
+    font-size: 30px;
+    font-family: Arial, 'ljk_CCRickVeitch_WO5';
+    src: url('fonts/ljk_CCRickVeitch_WO5.otf')
+    format('truetype');
+    color: white;
+
+}
+h1 {
+    color: white;
+}
+body {
+
+    background: #c7b29b
+}
+main {
+    height: 100px;
+
+    background-size: 100% auto;
+}
+/*Стили нижнего колонтитула*/
