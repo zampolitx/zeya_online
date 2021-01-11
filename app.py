@@ -1,10 +1,10 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, flash
 menu = [{"name":'Сегодня', "url": "today"},
         {"name":'Блог', "url": "blog"},
         {"name":'Про нас', "url": "about"}]
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = 'sdlkjOJSDFlksdlkfDSFOol.ksdjf'
 
 @app.route('/')
 def index():
@@ -17,7 +17,10 @@ def today():
 @app.route('/about', methods=["POST", "GET"])
 def about():
     if request.method == "POST":
-        print(request.form)
+        if len(request.form['username']) > 2:                               # Начало блока мгновенных сообщений
+            flash('Сообщение отправлено', category='success')
+        else:
+            flash('Ошибка отправления', category='error')
     return render_template("about.html", title='О сайте', menu=menu)
 
 

@@ -1,9 +1,3 @@
-@font-face {
-    font-family: Arial, 'ljk_CCRickVeitch_WO5';
-    src: url('fonts/ljk_CCRickVeitch_WO5.otf')
-    format('truetype');
-
-}
 .body_header {
     background: #def5ff;
     height: 100px;
@@ -13,14 +7,9 @@ nav {
     background: #f03624;
     height: 70px;
     font-size: 30px;
-    font-family: Arial, 'ljk_CCRickVeitch_WO5';
-    src: url('fonts/ljk_CCRickVeitch_WO5.otf')
-    format('truetype');
+    font-family: Arial;
     color: white;
 
-}
-h1 {
-    color: white;
 }
 body {
 
@@ -31,4 +20,16 @@ main {
 
     background-size: 100% auto;
 }
-/*Стили нижнего колонтитула*/
+A:visited {
+color: white;
+}
+
+.flash {padding: 10px;}
+.flash.success {
+    border: 1px solid #21DB35;
+    background: #AEFFC5;
+}
+.flash.error {
+    border: 1px solid #FF4343;
+    background: #FF9C9C;
+}
