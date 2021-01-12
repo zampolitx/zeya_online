@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, flash
+from flask import Flask, render_template, url_for, request, flash, session, redirect, abort
 menu = [{"name":'Сегодня', "url": "today"},
         {"name":'Блог', "url": "blog"},
         {"name":'Про нас', "url": "about"}]
@@ -23,6 +23,24 @@ def about():
             flash('Ошибка отправления', category='error')
     return render_template("about.html", title='О сайте', menu=menu)
 
+@app.route('/profile/<username>')
+def profile(username):
+    if 'userLogged' not in session or session['userLogged'] !=username:     # Если пользователь не залогинился или пытается войти под чужой учеткой
+        abort(401)
+    return f'Профиль пользователя: {username}'
+
+@app.route('/login', methods=['POST', 'GET'])                               # Обработчик входа в учетку
+def login():
+    if 'userLogged' in session:                                             # Если пользователь уже есть в сессии
+        return redirect(url_for('profile', username=session['userLogged']))
+    elif request.method == 'POST' and request.form['username'] == 'zampolit' and request.form['psw'] == '123':
+        session['userLogged'] = request.form['username']
+        return redirect(url_for('profile', username=session['userLogged']))
+    return render_template('login.html', title='Авторизация', menu=menu)
+
+@app.errorhandler(404)
+def pageNotFound(error):
+    return render_template('page404.html', title='Страница не найдена', menu=menu), 404         # Если не поставить 404 то код будет 200, а не 404
 
 if __name__=="__main__":
     app.run(debug=True)
