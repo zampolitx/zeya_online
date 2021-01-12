@@ -15,12 +15,14 @@
 <body>
     <header>
         <div class="body_header">
-            <img src="static/zeya_online1.png" height="300px" padding="100px">
+            <img src="static/zeya_online1.png" height="250px" padding="100px">
         </div>
         <nav>
-            {% for m in menu %}
-                <a href="{{m.url}}">{{m.name}}</a>
-            {% endfor %}
+            <div class="button">
+                {% for m in menu %}
+                    <a href="{{m.url}}">{{m.name}}</a>
+                {% endfor %}
+            </div>
         </nav>
     </header>
 

@@ -9,10 +9,11 @@ nav {
     font-size: 30px;
     font-family: Arial;
     color: white;
+    border: 1px;
 
 }
 body {
-
+    margin: 0px;
     background: #c7b29b
 }
 main {
@@ -32,4 +33,10 @@ color: white;
 .flash.error {
     border: 1px solid #FF4343;
     background: #FF9C9C;
+}
+.button {
+    height:10px;
+    line-height: 10px;
+    position: absolute;
+    right: 0%;
 }
