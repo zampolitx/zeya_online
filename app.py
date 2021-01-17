@@ -1,15 +1,13 @@
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 import os
 import sqlite3
+from FDataBase import FDataBase
 
 # Конфигурация
 DATABASE = '/tmp/flsite.db'
 DEBUG = True
 SECRET_KEY = 'sdlkjOJSDFlksdlkfDSFOol.ksdjf'
 
-menu = [{"name":'Сегодня', "url": "today"},
-        {"name":'Блог', "url": "blog"},
-        {"name":'Про нас', "url": "about"}]
 
 app = Flask(__name__)
 app.config.from_object(__name__)                # Загружаем конфигурацию
@@ -38,11 +36,14 @@ def get_db():
 @app.route('/')
 def index():
     db = get_db()       # Устанавливаем соединение с БД
-    return render_template("index.html", title='Главная страница', menu=menu)
+    dbase=FDataBase(db)
+    return render_template("index.html", title='Главная страница', menu=dbase.getMenu(), posts=dbase.getPostsAnonce())
 
 @app.route('/today')
 def today():
-    return render_template("today.html", title='Сегодня', menu=menu)
+    db = get_db()
+    dbase = FDataBase(db)
+    return render_template("today.html", title='Сегодня', menu=dbase.getMenu())
 
 @app.route('/about', methods=["POST", "GET"])
 def about():
@@ -68,9 +69,37 @@ def login():
         return redirect(url_for('profile', username=session['userLogged']))
     return render_template('login.html', title='Авторизация', menu=menu)
 
+@app.route('/add_post', methods=['POST', 'GET'])
+def addPost():
+    db = get_db()
+    dbase = FDataBase(db)
+    print(dir(g.link_db))
+    if request.method == "POST":
+        if len(request.form['name']) > 4 and len(request.form['post']) > 10:
+            res = dbase.addPost(request.form['name'], request.form['post'])
+            if not res:
+                flash('Ошибка добавления статьи', category='error')
+            else:
+                flash('Статья добавлена успешно', category='success')
+        else:
+            flash('Ошибка добавления статьи', category='error')
+
+    return render_template('add_post.html', menu=dbase.getMenu(), title='1')
+
+@app.route('/post/<int:id_post>')
+def showPost(id_post):
+    db = get_db()
+    dbase = FDataBase(db)
+    title, post = dbase.getPost(id_post)
+    if not title:
+        abort(404)
+    return render_template('post.html', menu=dbase.getMenu(), title=title, post=post)
+
 @app.errorhandler(404)
 def pageNotFound(error):
-    return render_template('page404.html', title='Страница не найдена', menu=menu), 404         # Если не поставить 404 то код будет 200, а не 404
+    db = get_db()
+    dbase = FDataBase(db)
+    return render_template('page404.html', title='Страница не найдена', menu=dbase.getMenu()), 404         # Если не поставить 404 то код будет 200, а не 404
 
 @app.teardown_appcontext            # Декоратор срабатывает тогда, когда происходит уничтожение контекста приложения
 def close_db(error):

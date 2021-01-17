@@ -19,14 +19,23 @@
         </div>
         <nav>
             <div class="button">
-                {% for m in menu %}
-                    <a href="{{m.url}}">{{m.name}}</a>
-                {% endfor %}
+                <ul class="mainmenu">
+                    <li><a href="{{url_for('index')}}">Главная</a> </li>
+                    <li><a href="{{url_for('addPost')}}">Добавление записи</a> </li>
+                </ul>
             </div>
         </nav>
     </header>
 
     <main>
+        <div class="clear"></div>
+        <div class="content">
+                {% if title %}
+            <h1>{{ title }}</h1>
+                {% else -%}
+            <h1> Про Flask </h1>
+                {% endif -%}
+        </div>
     </main>
     {% block body %}{% endblock %}
 
