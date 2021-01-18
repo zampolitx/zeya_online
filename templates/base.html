@@ -11,6 +11,14 @@
             {{ title }}
         {% endblock %}
     </title>
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/52svo5cg21akcjmk9q6jjl7ms08q250xc9mzo94qyfhkuf63/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+       tinymce.init({
+           selector: '#post'
+       });
+    </script>
+    <!-- /TinyMCE -->
 </head>
 <body>
     <header>
